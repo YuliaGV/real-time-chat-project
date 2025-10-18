@@ -23,7 +23,6 @@ io.on("connection", (socket) => {
     // Broadcast the received message to all connected clients.
     io.emit("mensaje", data);
   });
-
   // Fired when the client disconnects
   socket.on("disconnect", () => {
     console.log("Usuario desconectado:", socket.id);
