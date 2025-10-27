@@ -13,21 +13,22 @@ const io = new Server(server, {
 });
 
 io.on("connection", (socket) => {
-  // Fired when a client connects
-  console.log("Usuario conectado:", socket.id);
+  const username =
+    (socket.handshake && socket.handshake.auth && socket.handshake.auth.username) ||
+    `User_${socket.id.substring(0, 5)}`;
+  socket.username = username;
 
-  // Listen for a 'mensaje' event from the client.'data' should contain the message payload sent by the client.
-  socket.on("mensaje", (data) => {
-    console.log("Mensaje recibido:", data);
+  socket.broadcast.emit("user_connected", { id: socket.id, username });
 
-    // Broadcast the received message to all connected clients.
-    io.emit("mensaje", data);
+  socket.on("message", (data) => {
+    const payload = { ...data, from: { id: socket.id, username } };
+    io.emit("message", payload);
   });
-  // Fired when the client disconnects
+
   socket.on("disconnect", () => {
-    console.log("Usuario desconectado:", socket.id);
+    socket.broadcast.emit("user_disconnected", { id: socket.id, username });
   });
 });
 
 // Start the server on port 3000
-server.listen(3000, () => console.log("Servidor Socket.IO en puerto 3000"));
+server.listen(3000, () => console.log("Socket.IO server running on port 3000"));

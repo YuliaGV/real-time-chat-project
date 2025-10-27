@@ -1,0 +1,30 @@
+.join-chat-form {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  gap: 10px;
+}
+
+.message-list {
+  border: 1px solid #ccc;
+  padding: 10px;
+  min-height: 400px;
+  overflow-y: scroll;
+  margin-bottom: 10px;
+  font-size: 18px;
+}
+
+.message-form {
+  width: 100%;
+  display: flex;
+  flex-direction: row;
+  gap: 10px;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.message-form mat-form-field {
+  flex: 1;
+}
+
+

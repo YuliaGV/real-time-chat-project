@@ -1,0 +1,45 @@
+<div class="chat-room">
+  <div *ngIf="!isNameEntered">
+    <h2>Ingresa tu nombre para unirte al chat</h2>
+    <form (ngSubmit)="joinChat()" class="join-chat-form">
+      <mat-form-field>
+        <mat-label>Ingresa tu nombre</mat-label>
+        <input
+          matInput
+          class="name-input"
+          type="text"
+          [(ngModel)]="name"
+          name="name"
+          required
+        />
+      </mat-form-field>
+      <button mat-raised-button color="primary" type="submit">
+        Unirse al Chat
+      </button>
+    </form>
+  </div>
+
+  <div *ngIf="isNameEntered">
+    <h2>Bienvenido, {{ name }}!</h2>
+
+    <div class="message-list">
+      <div *ngFor="let msg of messages" class="message-item">
+        <strong>{{ msg.user }}:</strong> {{ msg.text }}
+      </div>
+    </div>
+    <form (ngSubmit)="sendMessage()" class="message-form">
+      <mat-form-field>
+        <mat-label>Escribe tu mensaje</mat-label>
+        <input
+          matInput
+          class="message-input"
+          [(ngModel)]="message"
+          name="message"
+          placeholder="Escribe tu mensaje..."
+          required
+        />
+      </mat-form-field>
+      <button mat-raised-button color="primary" type="submit">Enviar</button>
+    </form>
+  </div>
+</div>
