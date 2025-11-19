@@ -37,17 +37,26 @@
 
     <div class="message-list">
       <div *ngFor="let msg of messages" class="message-item">
-        <div class="message">
+        <div class="message" [ngClass]="{'own-message': msg.user === name}">
           <div class="avatar"
             [ngStyle]="{
-              'background-color': avatarColor,
-              'color': getContrastColor(avatarColor)
+              'background-color': msg.user === name ? avatarColor : msg.avatarColor,
+              'color':  msg.user === name ? getContrastColor(avatarColor) : getContrastColor(msg.avatarColor)
             }">
             {{ msg.user?.charAt(0) | uppercase }}
           </div>
-          <div class="message-body">
-            <strong>{{ msg.user }}:</strong> {{ msg.text }}
-          </div>
+          <mat-card class="message-card">
+            <mat-card-content>
+              <div class="message-body">
+                <div class="message-user"> 
+                  <strong>{{ msg.user }} dice:</strong>
+                </div>
+                <div class="message-text">
+                  {{ msg.text }}
+                </div>
+              </div>
+            </mat-card-content>
+          </mat-card>
         </div>
       </div>
     </div>

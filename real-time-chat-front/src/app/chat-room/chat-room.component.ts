@@ -12,7 +12,7 @@ export class ChatRoomComponent{
   name = '';
   isNameEntered = false;
   message = '';
-  messages: { user: string, text: string }[] = [];
+  messages: { user: string, text: string, avatarColor: string }[] = [];
   avatarColor: string = '#007bff';
 
   joinChat() {
@@ -24,7 +24,8 @@ export class ChatRoomComponent{
   connectSocket() {
     this.socket = io("http://localhost:3000", {
       auth: {
-        username: this.name
+        username: this.name,
+        avatarColor: this.avatarColor
       }
     });
     this.socket.on("message", (data) => {
@@ -40,7 +41,7 @@ export class ChatRoomComponent{
 
   sendMessage() {
     if (this.message.trim() && this.socket) {
-      const data = { user: this.name, text: this.message };
+      const data = { user: this.name, text: this.message, avatarColor: this.avatarColor };
       console.log("Sending message:", data);
       this.socket.emit("message", data);
       this.message = "";
