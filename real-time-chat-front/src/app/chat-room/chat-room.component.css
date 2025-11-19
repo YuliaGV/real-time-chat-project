@@ -62,11 +62,8 @@
   border: 2px solid #888888;
 }
 
-.message-user {
-  font-weight: bold;
-  font-size: 12px;
-}
 
-.message .message-body {
-  flex: 1;
+.error-card {
+  background-color: #ffcccc;
+  margin: 10px 0;
 }

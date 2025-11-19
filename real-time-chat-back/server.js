@@ -18,6 +18,15 @@ io.on("connection", (socket) => {
     `User_${socket.id.substring(0, 5)}`;
   socket.username = username;
 
+  // Check if username exists
+  const existingUser = Array.from(io.sockets.sockets.values()).find(s => s.username === username && s.id !== socket.id);
+  if (existingUser) {
+    socket.emit("username_error", { message: "Username already taken" });
+    socket.disconnect();
+    return;
+  }
+
+  // Notify other users about the new connection
   socket.broadcast.emit("user_connected", { id: socket.id, username });
 
   socket.on("message", (data) => {

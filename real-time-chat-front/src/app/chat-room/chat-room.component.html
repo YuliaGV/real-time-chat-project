@@ -32,6 +32,16 @@
     </form>
   </div>
 
+  <div *ngIf="userNameError">
+    <mat-card class="error-card">
+      <mat-card-content>
+        <div class="error-message">
+          {{ userNameError }}
+        </div>
+      </mat-card-content>
+    </mat-card>
+  </div>
+
   <div *ngIf="isNameEntered">
     <h2>Bienvenido, {{ name }}!</h2>
 
@@ -48,12 +58,7 @@
           <mat-card class="message-card">
             <mat-card-content>
               <div class="message-body">
-                <div class="message-user"> 
-                  <strong>{{ msg.user }} dice:</strong>
-                </div>
-                <div class="message-text">
-                  {{ msg.text }}
-                </div>
+                {{ msg.user }} dice: <strong>{{ msg.text }}</strong>
               </div>
             </mat-card-content>
           </mat-card>

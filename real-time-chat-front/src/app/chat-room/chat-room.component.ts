@@ -14,6 +14,7 @@ export class ChatRoomComponent{
   message = '';
   messages: { user: string, text: string, avatarColor: string }[] = [];
   avatarColor: string = '#007bff';
+  userNameError: string = '';
 
   joinChat() {
     if (this.name.trim()) {
@@ -28,12 +29,29 @@ export class ChatRoomComponent{
         avatarColor: this.avatarColor
       }
     });
+
+    this.socket.on('connect', () => {
+      this.userNameError = '';
+    });
+
+    this.socket.on("username_error", (err) => {
+      const translations: Record<string, string> = {
+        'Username already taken': 'El nombre de usuario ya está en uso',
+      };
+      const errMsg = typeof err === 'string' ? err : (err?.message ?? '');
+      this.userNameError = translations[errMsg] ?? 'Error desconocido. Inténtalo de nuevo.';
+      this.isNameEntered = false;
+      this.socket?.disconnect();
+    });
+
     this.socket.on("message", (data) => {
       this.messages.push(data);
     });
+
     this.socket.on("user_connected", (data) => {
       console.log("User connected:", data);
     });
+
     this.socket.on("user_disconnected", (data) => {
       console.log("User disconnected:", data);
     });
