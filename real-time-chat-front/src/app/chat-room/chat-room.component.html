@@ -13,6 +13,19 @@
           required
         />
       </mat-form-field>
+      <mat-form-field>
+        <mat-label>Selecciona el color de tu avatar</mat-label>
+        <input
+          class ="color-input"
+          matInput
+          type="color"
+          [(ngModel)]="avatarColor"
+          name="avatarColor"
+        />
+       
+      </mat-form-field>
+
+
       <button mat-raised-button color="primary" type="submit">
         Unirse al Chat
       </button>
@@ -24,11 +37,22 @@
 
     <div class="message-list">
       <div *ngFor="let msg of messages" class="message-item">
-        <strong>{{ msg.user }}:</strong> {{ msg.text }}
+        <div class="message">
+          <div class="avatar"
+            [ngStyle]="{
+              'background-color': avatarColor,
+              'color': getContrastColor(avatarColor)
+            }">
+            {{ msg.user?.charAt(0) | uppercase }}
+          </div>
+          <div class="message-body">
+            <strong>{{ msg.user }}:</strong> {{ msg.text }}
+          </div>
+        </div>
       </div>
     </div>
     <form (ngSubmit)="sendMessage()" class="message-form">
-      <mat-form-field>
+      <mat-form-field >
         <mat-label>Escribe tu mensaje</mat-label>
         <input
           matInput

@@ -13,6 +13,7 @@ export class ChatRoomComponent{
   isNameEntered = false;
   message = '';
   messages: { user: string, text: string }[] = [];
+  avatarColor: string = '#007bff';
 
   joinChat() {
     if (this.name.trim()) {
@@ -44,6 +45,19 @@ export class ChatRoomComponent{
       this.socket.emit("message", data);
       this.message = "";
     }
+  }
+
+  getContrastColor(hexColor: string): string {
+    // Remove the hash if it's there
+    hexColor = hexColor.replace('#', '');
+    // Convert to RGB
+    const r = parseInt(hexColor.substr(0, 2), 16);
+    const g = parseInt(hexColor.substr(2, 2), 16);
+    const b = parseInt(hexColor.substr(4, 2), 16);
+    // Calculate brightness
+    const brightness = (r * 299 + g * 587 + b * 114) / 1000;
+    // Return black for light colors and white for dark colors
+    return brightness > 125 ? '#000000' : '#FFFFFF';
   }
 
 }
