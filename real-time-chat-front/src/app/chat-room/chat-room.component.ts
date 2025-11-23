@@ -13,6 +13,7 @@ export class ChatRoomComponent{
   isNameEntered = false;
   message = '';
   messages: { user: string, text: string, avatarColor: string }[] = [];
+  notifications: { message: string, timestamp: Date }[] = [];
   avatarColor: string = '#007bff';
   userNameError: string = '';
 
@@ -49,11 +50,11 @@ export class ChatRoomComponent{
     });
 
     this.socket.on("user_connected", (data) => {
-      console.log("User connected:", data);
+      this.notifications.push({ message: `${data.username} se unió al chat.`, timestamp: new Date() });
     });
 
     this.socket.on("user_disconnected", (data) => {
-      console.log("User disconnected:", data);
+      this.notifications.push({ message: `${data.username} ha salido del chat.`, timestamp: new Date() });
     });
   }
 

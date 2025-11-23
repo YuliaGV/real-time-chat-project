@@ -16,15 +16,13 @@
       <mat-form-field>
         <mat-label>Selecciona el color de tu avatar</mat-label>
         <input
-          class ="color-input"
+          class="color-input"
           matInput
           type="color"
           [(ngModel)]="avatarColor"
           name="avatarColor"
         />
-       
       </mat-form-field>
-
 
       <button mat-raised-button color="primary" type="submit">
         Unirse al Chat
@@ -43,30 +41,37 @@
   </div>
 
   <div *ngIf="isNameEntered">
-    <h2>Bienvenido, {{ name }}!</h2>
+    <h2>Bienvenid@, {{ name }}!</h2>
 
     <div class="message-list">
       <div *ngFor="let msg of messages" class="message-item">
-        <div class="message" [ngClass]="{'own-message': msg.user === name}">
-          <div class="avatar"
+        <div class="message" [ngClass]="{ 'own-message': msg.user === name }">
+          <div
+            class="avatar"
             [ngStyle]="{
-              'background-color': msg.user === name ? avatarColor : msg.avatarColor,
-              'color':  msg.user === name ? getContrastColor(avatarColor) : getContrastColor(msg.avatarColor)
-            }">
+              'background-color':
+                msg.user === name ? avatarColor : msg.avatarColor,
+              color:
+                msg.user === name
+                  ? getContrastColor(avatarColor)
+                  : getContrastColor(msg.avatarColor)
+            }"
+          >
             {{ msg.user?.charAt(0) | uppercase }}
           </div>
           <mat-card class="message-card">
             <mat-card-content>
               <div class="message-body">
-                {{ msg.user }} dice: <strong>{{ msg.text }}</strong>
+                {{ msg.user }}: <strong>{{ msg.text }}</strong>
               </div>
             </mat-card-content>
           </mat-card>
         </div>
       </div>
     </div>
+
     <form (ngSubmit)="sendMessage()" class="message-form">
-      <mat-form-field >
+      <mat-form-field>
         <mat-label>Escribe tu mensaje</mat-label>
         <input
           matInput
@@ -79,5 +84,13 @@
       </mat-form-field>
       <button mat-raised-button color="primary" type="submit">Enviar</button>
     </form>
+
+    <div class="notification-area">
+      <p *ngIf="notifications.length === 0">No hay notificaciones recientes</p>
+      <div *ngFor="let note of notifications" class="notification-item">
+        <p class="notification-text">{{ note.timestamp | date: 'short' }}: {{ note.message }}</p>
+      </div>
+    </div>
+
   </div>
 </div>
